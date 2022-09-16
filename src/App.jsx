@@ -1,6 +1,7 @@
 import { Component } from 'react';
 
 import { fetch } from 'components/fetch/fetch.jsx';
+// import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 import { Searchbar } from './components/Searchbar/Searchbar.jsx';
 import { ImageGallery } from './components/ImageGallery/ImageGallery.jsx';
@@ -27,10 +28,7 @@ export default class App extends Component {
       fetch(searchName, page)
         .then(response => {
           this.setState(prev => ({
-            response:
-              this.state.page === 1
-                ? response
-                : [...prev.response, ...response],
+            response: page === 1 ? response : [...prev.response, ...response],
           }));
         })
         .catch(error => console.log(error))
@@ -40,7 +38,12 @@ export default class App extends Component {
 
   handleFormSubmit = searchName => {
     this.setState({ searchName, page: 1 });
+
+    // if (!!this.state.response) {
+    //   return Notify.warning('Фото не найдено');
+    // }
   };
+
   handlLoadMore = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   };
